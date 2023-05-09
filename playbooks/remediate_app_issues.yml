@@ -15,7 +15,7 @@
     configuration_old:  "2048 bit RSA" #"Network interface abc" #"Ports 9091, 9010, 9081 Allowed"
     configuration_remediation: "/api/v2/job_templates/12/launch/"
     dt_api_url: "https://fga13251.apps.dynatrace.com/"
-    dt_api_token: "dt0c01.TS2ZFKBI6G5XVA7C2WZRDDSM.2YBMA5WHHAGZWF4HCMFMC6P6B55AWFFUF2WUJBUEOBK3TJKHI6KXF4VEOFLI5FZD"
+    dt_api_token: "xx"
     
   tasks:
     -
