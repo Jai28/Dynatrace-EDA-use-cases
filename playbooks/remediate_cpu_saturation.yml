@@ -8,7 +8,7 @@
         msg: "{{pid}}"
       when: state == "OPEN"
     - name: Post comment to Dynatrace - triggered playbook
-      shell: "curl -X POST --header 'Authorization: Api-Token {{dynatrace_api_token}}' -H 'Content-Type: application/json' -d '{\"message\": \"Triggered Ansible playbook to resolve problem\"}' {{dynatrace_api_url}}/v2/problems/{{pid}}/comments"
+      shell: "curl -X POST --header 'Authorization: Api-Token {{dynatrace_api_token}}' -H 'Content-Type: application/json' -d '{\"message\": \"Triggered Ansible playbook to resolve CPU problem\"}' {{dynatrace_api_url}}/v2/problems/{{pid}}/comments"
       when: state == "OPEN"
     - name: Login to OpenShift cluster
       command: oc login -u {{openshift_user}} -p {{openshift_pwd}} --insecure-skip-tls-verify {{openshift_api_url}}
@@ -54,4 +54,4 @@
       #shell: "curl -X POST --header 'Authorization: Api-Token {{dynatrace_api_token}}' -H 'Content-Type: application/json' -d '{\"eventType\": \"CUSTOM_INFO\", \"title\": \"Problem Remediation\", \"timeout\": 30, \"entitySelector\": \"type(SERVICE),entityName.equals(AuthenticationService)\"}' {{dynatrace_api_url}}/v2/events/ingest"
       when: state == "RESOLVED"
     - name: Post comment to Dynatrace - problem resolved
-      shell: "curl -X POST --header 'Authorization: Api-Token {{dynatrace_api_token}}' -H 'Content-Type: application/json' -d '{\"message\": \"Problem has been RESOLVED\"}' {{dynatrace_api_url}}/v2/problems/{{pid}}/comments"
+      shell: "curl -X POST --header 'Authorization: Api-Token {{dynatrace_api_token}}' -H 'Content-Type: application/json' -d '{\"message\": \"CPU Problem has been RESOLVED\"}' {{dynatrace_api_url}}/v2/problems/{{pid}}/comments"

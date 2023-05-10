@@ -1,0 +1,8 @@
+- name: Login to OpenShift cluster
+  hosts: all
+  connection: ssh
+  tasks:
+    - name: Login to OpenShift cluster
+      command: oc login -u {{openshift_user}} -p {{openshift_pwd}} --insecure-skip-tls-verify {{openshift_api_url}}
+    - name: Set environment variable for deployment config for CPU load genertion
+      command: oc set env dc/easytravel-loadgen ET_BACKEND_URL=http://easytravel-www:8080 ET_PROBLEMS=JourneySearchError500 -n easytravel
