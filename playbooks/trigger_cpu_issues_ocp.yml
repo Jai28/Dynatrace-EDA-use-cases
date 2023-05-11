@@ -1,5 +1,5 @@
 ---
-- name: Login to OpenShift cluster
+- name: Login to OpenShift cluster and trigger CPU Load
   hosts: all
   connection: ssh
   tasks:

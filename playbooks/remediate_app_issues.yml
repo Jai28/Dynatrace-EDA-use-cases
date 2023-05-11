@@ -1,5 +1,5 @@
 ---
-- name: Update environment variables and roll out latest deployment on OpenShift
+- name: Fix Application issues
   hosts: all
   connection: ssh
   tasks:
