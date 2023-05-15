@@ -11,3 +11,4 @@
       condition: event.meta.headers is defined
       action:
         debug:
+          msg: "Hello from DT"
