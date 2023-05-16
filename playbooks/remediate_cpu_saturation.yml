@@ -8,7 +8,7 @@
         msg: "{{ansible_eda.event.payload.eventId}}"
       when: ansible_eda.event.payload.problemStatus == "OPEN"
     - name: Post comment to Dynatrace - triggered playbook
-      shell: "curl -X POST --header 'Authorization: Api-Token {{dynatrace_api_token}}' -H 'Content-Type: application/json' -d '{\"message\": \"Triggered Ansible playbook to resolve CPU problem\"}' {{dynatrace_api_url}}/v2/problems/{{ansible_eda.event.payload.eventId}}/comments"
+      shell: "curl -X POST --header 'Authorization: Api-Token {{dynatrace_api_token}}' -H 'Content-Type: application/json' -d '{\"message\": \"Triggered Ansible playbook to resolve CPU problem\"}' {{dynatrace_api_url}}/api/v2/problems/{{ansible_eda.event.payload.eventId}}/comments"
       when: ansible_eda.event.payload.problemStatus == "OPEN"
     - name: Login to OpenShift cluster
       command: oc login -u {{openshift_user}} -p {{openshift_pwd}} --insecure-skip-tls-verify {{openshift_api_url}}
@@ -33,7 +33,7 @@
       command: oc rollout latest dc/easytravel-frontend -n easytravel
       when: ansible_eda.event.payload.problemStatus == "OPEN"
     - name: Post comment to Dynatrace - playbook ran successfully
-      shell: "curl -X POST --header 'Authorization: Api-Token {{dynatrace_api_token}}' -H 'Content-Type: application/json' -d '{\"message\": \"Successfully ran Ansible playbook\"}' {{dynatrace_api_url}}/v2/problems/{{ansible_eda.event.payload.eventId}}/comments"
+      shell: "curl -X POST --header 'Authorization: Api-Token {{dynatrace_api_token}}' -H 'Content-Type: application/json' -d '{\"message\": \"Successfully ran Ansible playbook\"}' {{dynatrace_api_url}}/api/v2/problems/{{ansible_eda.event.payload.eventId}}/comments"
       when: ansible_eda.event.payload.problemStatus == "OPEN"
     - name: Post Ansible info to Dynatrace Problem
       uri:
@@ -54,4 +54,4 @@
       #shell: "curl -X POST --header 'Authorization: Api-Token {{dynatrace_api_token}}' -H 'Content-Type: application/json' -d '{\"eventType\": \"CUSTOM_INFO\", \"title\": \"Problem Remediation\", \"timeout\": 30, \"entitySelector\": \"type(SERVICE),entityName.equals(AuthenticationService)\"}' {{dynatrace_api_url}}/v2/events/ingest"
       when: ansible_eda.event.payload.problemStatus == "RESOLVED"
     - name: Post comment to Dynatrace - problem resolved
-      shell: "curl -X POST --header 'Authorization: Api-Token {{dynatrace_api_token}}' -H 'Content-Type: application/json' -d '{\"message\": \"CPU Problem has been RESOLVED\"}' {{dynatrace_api_url}}/v2/problems/{{ansible_eda.event.payload.eventId}}/comments"
+      shell: "curl -X POST --header 'Authorization: Api-Token {{dynatrace_api_token}}' -H 'Content-Type: application/json' -d '{\"message\": \"CPU Problem has been RESOLVED\"}' {{dynatrace_api_url}}/api/v2/problems/{{ansible_eda.event.payload.eventId}}/comments"
