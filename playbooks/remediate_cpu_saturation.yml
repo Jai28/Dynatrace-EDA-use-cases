@@ -6,35 +6,35 @@
     - name: Print Dynatrace ProblemId
       debug:
         msg: "{{pid}}"
-      when: state == "OPEN"
+      when: problemStatus == "OPEN"
     - name: Post comment to Dynatrace - triggered playbook
       shell: "curl -X POST --header 'Authorization: Api-Token {{dynatrace_api_token}}' -H 'Content-Type: application/json' -d '{\"message\": \"Triggered Ansible playbook to resolve CPU problem\"}' {{dynatrace_api_url}}/v2/problems/{{pid}}/comments"
-      when: state == "OPEN"
+      when: problemStatus == "OPEN"
     - name: Login to OpenShift cluster
       command: oc login -u {{openshift_user}} -p {{openshift_pwd}} --insecure-skip-tls-verify {{openshift_api_url}}
-      when: state == "OPEN"
+      when: problemStatus == "OPEN"
     - name: Set environment variable for easyravel-loadgen deployment config to trigger new rollout
       command: oc set env dc/easytravel-loadgen ET_PROBLEMS- ET_BACKEND_URL- -n easytravel
-      when: state == "OPEN"
+      when: problemStatus == "OPEN"
     - name: Sleep for 60 seconds
       wait_for:
         delay: 60
         timeout: 0
-      when: state == "OPEN"
+      when: problemStatus == "OPEN"
     - name: Roll out latest deployment for easytravel-backend
       command: oc rollout latest dc/easytravel-backend -n easytravel
-      when: state == "OPEN"
+      when: problemStatus == "OPEN"
     - name: Sleep for 60 seconds
       wait_for:
         delay: 60
         timeout: 0
-      when: state == "OPEN"
+      when: problemStatus == "OPEN"
     - name: Roll out latest deployment for easytravel-frontend
       command: oc rollout latest dc/easytravel-frontend -n easytravel
-      when: state == "OPEN"
+      when: problemStatus == "OPEN"
     - name: Post comment to Dynatrace - playbook ran successfully
       shell: "curl -X POST --header 'Authorization: Api-Token {{dynatrace_api_token}}' -H 'Content-Type: application/json' -d '{\"message\": \"Successfully ran Ansible playbook\"}' {{dynatrace_api_url}}/v2/problems/{{pid}}/comments"
-      when: state == "OPEN"
+      when: problemStatus == "OPEN"
     - name: Post Ansible info to Dynatrace Problem
       uri:
         url: "{{dynatrace_api_url}}/v2/events/ingest"
@@ -52,6 +52,6 @@
         return_content: yes
         status_code: 201
       #shell: "curl -X POST --header 'Authorization: Api-Token {{dynatrace_api_token}}' -H 'Content-Type: application/json' -d '{\"eventType\": \"CUSTOM_INFO\", \"title\": \"Problem Remediation\", \"timeout\": 30, \"entitySelector\": \"type(SERVICE),entityName.equals(AuthenticationService)\"}' {{dynatrace_api_url}}/v2/events/ingest"
-      when: state == "RESOLVED"
+      when: problemStatus == "RESOLVED"
     - name: Post comment to Dynatrace - problem resolved
       shell: "curl -X POST --header 'Authorization: Api-Token {{dynatrace_api_token}}' -H 'Content-Type: application/json' -d '{\"message\": \"CPU Problem has been RESOLVED\"}' {{dynatrace_api_url}}/v2/problems/{{pid}}/comments"
