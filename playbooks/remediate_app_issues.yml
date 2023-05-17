@@ -47,7 +47,7 @@
             "eventType": "CUSTOM_INFO",
             "title": "Ansible Problem Remediation",
             "timeout": 30,
-            "entitySelector": "type({{ansible_eda.event.payload.impactedEntitiesId.entityId.type}}),entityId.equals({{ansible_eda.event.payload.impactedEntitiesId.entityId.id}})"
+            "entitySelector": "type(SERVICE),entityName.equals(AuthenticationService)"
           }
         return_content: yes
         status_code: 201
