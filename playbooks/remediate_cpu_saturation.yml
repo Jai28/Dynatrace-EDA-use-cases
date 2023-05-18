@@ -48,7 +48,7 @@
             "eventType": "CUSTOM_INFO",
             "title": "Ansible Problem Remediation",
             "timeout": 30,
-            "entitySelector": "type(HOST),entityId.equals("{{ansible_eda.event.payload.impactedEntitiesId[0].entityId.id}}")"
+            "entitySelector": "type(HOST),entityName.equals(aap-dt-2wp4c-master-0.c.ansible-tower-engineering.internal)"
           }
         return_content: yes
         status_code: 201
@@ -56,3 +56,4 @@
       when: ansible_eda.event.payload.problemStatus == "OPEN"
       #name: Post comment to Dynatrace - problem resolved
       #shell: "curl -X POST --header 'Authorization: Api-Token {{dynatrace_api_token}}' -H 'Content-Type: application/json' -d '{\"message\": \"Ansible EDA controller-CPU Problem has been RESOLVED\"}' {{dynatrace_api_url}}/api/v2/problems/{{ansible_eda.event.payload.eventId}}/comments"
+      #"entitySelector": "type(HOST),entityId.equals("{{ansible_eda.event.payload.impactedEntitiesId[0].entityId.id}}")"
