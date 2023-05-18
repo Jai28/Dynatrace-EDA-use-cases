@@ -39,7 +39,7 @@
       uri:
         url: "{{dynatrace_api_url}}/api/v2/events/ingest"
         method: POST
-        body_format: json
+        #body_format: json
         headers:
           Authorization: "Api-Token {{dynatrace_api_token}}"
           Content-Type: "application/json"
@@ -48,7 +48,7 @@
             "eventType": "CUSTOM_INFO",
             "title": "Ansible Problem Remediation",
             "timeout": 30,
-            "entitySelector": "type(HOST),entityId.equals({{ansible_eda.event.payload.impactedEntitiesId[0].entityId.id}})"
+            "entitySelector": "type(HOST),entityId.equals("{{ansible_eda.event.payload.impactedEntitiesId[0].entityId.id}}")"
           }
         return_content: yes
         status_code: 201
