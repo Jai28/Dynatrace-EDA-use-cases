@@ -39,6 +39,7 @@
       uri:
         url: "{{dynatrace_api_url}}/api/v2/events/ingest"
         method: POST
+        body_format: json
         headers:
           Authorization: "Api-Token {{dynatrace_api_token}}"
           Content-Type: "application/json"
